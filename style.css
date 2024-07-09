@@ -1,0 +1,85 @@
+body {
+    background-color: #5E5B52;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.pizza {
+    /*box-model*/
+    border: 1px solid #6A4C93;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 0.5em;
+    
+}
+
+    
+.small_pizza {
+     background-color: #FC7A57;
+     flex: 1;
+}
+    
+.medium_pizza {
+    background-color: #FCD757;
+    flex: 1;
+}
+    
+.large_pizza {
+    background-color: #EEFC57;
+    flex: 1;
+}
+.contact_us {
+    background-color: #639A88;
+    padding-bottom: 4em;
+}
+
+
+@media (min-width: 960px) {
+    .pizzas {
+        display: flex;
+    }
+    .contacts {
+        float: inline-start;
+    }
+    .adress {
+        float: inline-end;
+    }
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.inline button {
+    margin: 0 5px;border: 1px solid #6A4C93;
+    justify-content: center;
+    border-radius: 0.5em;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.message {
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.shoppingCart {
+    border: 1px solid #6A4C93;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 0.5em;
+    background-color: #48A9A6;
+    text-align: justify;
+}
