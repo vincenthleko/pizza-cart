@@ -144,7 +144,11 @@
           
         </template>
         <template x-if="checkoutAmount < totalPrice">
-          <p>Sorry - that is not enough money!</p>
+          <div>
+            <p>Sorry - that is not enough money!</p>
+            <button @click="clearCart()">OK</button>
+          </div>
+          
         </template>
       </div>
 
