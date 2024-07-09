@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfect Pizza</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+
+  <body>
+    <h1>Perfect Pizza</h1>
+
+    <h2
+      x-data="{ message: 'Shopping cart', checkoutAmount: 0, paymentEntered: false, showCheckout: false }"
+      x-text="message"
+    ></h2>
+
+    <script>
+      function cart() {
+        return {
+          sizes: {
+            small: 49.0,
+            medium: 89.0,
+            large: 129.0,
+          },
+          totalPrice: 0,
+          checkoutAmount: 0,
+          smallQty: 0,
+          mediumQty: 0,
+          largeQty: 0,
+          paymentEntered: false,
+          showCheckout: false,
+          increment(size) {
+            this.totalPrice += this.sizes[size];
+            if (size =="small"){
+                this.smallQty++; 
+            };
+            if (size =="medium"){
+                this.mediumQty++; 
+            };
+             if (size =="large"){
+                this.largeQty++; 
+            };
+
+          },
+          decrement(size) {
+            if (this.totalPrice >= this.sizes[size]) {
+              this.totalPrice -= this.sizes[size];
+            }
+            if (size =="small" && this.smallQty > 0){
+                this.smallQty--; 
+            };
+            if (size =="medium" && this.mediumQty > 0){
+                this.mediumQty--; 
+            };
+             if (size =="large" && this.largeQty > 0){
+                this.largeQty--; 
+            };
+          },
+          processPayment() {
+            this.paymentEntered = true;
+
+          },
+          clearCart() {
+            
+              this.paymentEntered = false;
+              this.showCheckout = false;
+              this.totalPrice = 0;
+              this.checkoutAmount = 0;
+              this.smallQty = 0;
+              this.mediumQty = 0;
+              this.largeQty = 0;
+          },
+        };
+      }
+    </script>
+
+    <div x-data="cart()" class="shoppingCart">
+      <div class="inline" x-show="sizes.small > 0">
+        <span>Small</span>
+        <button @click="increment('small')">+</button>
+        <span x-text="smallQty"></span>
+        <button @click="decrement('small')">-</button>
+        <span>49.00</span>
+      </div>
+
+      <div class="inline" x-show="sizes.medium > 0">
+        <span>Medium</span>
+        <button @click="increment('medium')">+</button>
+        <span x-text="mediumQty"></span>
+        <button @click="decrement('medium')">-</button>
+        <span>89.00</span>
+      </div>
+
+      <div class="inline" x-show="sizes.large > 0">
+        <span>Large</span>
+        <button @click="increment('large')">+</button>
+        <span x-text="largeQty"></span>
+        <button @click="decrement('large')">-</button>
+        <span>129.00</span>
+      </div>
+
+      <div class="inline" x-show="sizes.large > 0">
+        <span class="inline">Quantity:</span>
+        <span x-text="largeQty + mediumQty + smallQty" class="inline"></span>
+      </div>
+
+      <hr>
+
+      <div class="inline">
+        <span x-text="`Total: R${totalPrice.toFixed(2)}`" class="inline"></span>
+      </div>
+
+      <!-- Checkout section -->
+      <div class="inline" x-show="totalPrice > 0 && !paymentEntered">
+        <button @click="showCheckout = true">Check Out</button>
+      </div>
+
+      <div x-show="showCheckout && totalPrice > 0">
+        <label for="paymentAmount">Enter Payment Amount:</label>
+        <input
+          type="number"
+          id="paymentAmount"
+          x-model.number="checkoutAmount"
+        />
+        <button @click="processPayment()">Pay</button>
+      </div>
+
+      <div
+        class="message"
+        x-show.transition.duration.1000ms="checkoutAmount > 0 && paymentEntered"
+      >
+        <template x-if="checkoutAmount >= totalPrice">
+            
+           <div>
+            <p>Enjoy your pizzas!</p>
+            <button @click="clearCart()">OK</button>
+           </div>
+          
+        </template>
+        <template x-if="checkoutAmount < totalPrice">
+          <p>Sorry - that is not enough money!</p>
+        </template>
+      </div>
+
+      <div class="pizzas">
+        <div class="pizza small_pizza" x-show="sizes.small > 0">
+          <h2>Small Pizza</h2>
+
+          <img
+            src="https://user-images.githubusercontent.com/34037/167314003-8ded573d-4bb2-447f-b27c-5545631b1904.png"
+            width="100"
+          />
+          <h3>R49.00</h3>
+          <div>
+            <div>small pizza with 3 toppings</div>
+            <div>1 meat topping</div>
+            <div>3 or less other toppings</div>
+          </div>
+          <div x-show="sizes.small > 0"></div>
+          <button @click="increment('small')">Buy</button>
+        </div>
+
+        <div class="pizza medium_pizza">
+          <h2>Medium Pizza</h2>
+          <img
+            src="https://user-images.githubusercontent.com/34037/167314003-8ded573d-4bb2-447f-b27c-5545631b1904.png"
+            width="125"
+          />
+          <h3>R89.00</h3>
+          <div>
+            <div>medium margeritha pizza with 3 toppings max</div>
+            <div>2 or less meat toppings</div>
+            <div>3 or less other toppings</div>
+          </div>
+          <button @click="increment('medium')">Buy</button>
+        </div>
+
+        <div class="pizza large_pizza">
+          <h2>Large Pizza</h2>
+          <img
+            src="https://user-images.githubusercontent.com/34037/167314003-8ded573d-4bb2-447f-b27c-5545631b1904.png"
+            width="150"
+          />
+          <h3>R129.00</h3>
+          <div>
+            <div>large margeritha with 3 toppings max</div>
+            <div>3 meat toppings max</div>
+            <div>3 or less other toppings</div>
+          </div>
+          <button @click="increment('large')">Buy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pizza contact_us">
+      <h2>Contact details</h2>
+
+      <div class="contacts">
+        <div>contact us at: 011 340 1231 info@perfectpizza.co.za</div>
+        <div>twitter/facebook/insta @perfectpizza</div>
+      </div>
+
+      <div class="adress">
+        <div>06 collins street</div>
+        <div>Brixton</div>
+      </div>
+    </div>
+  </body>
+</html>
